@@ -48,3 +48,15 @@
 3	2050	6563630162535567	CMakeFiles/textdraw-streamer.dir/main.cpp.obj	a760565452826782
 34	2054	6563630162565561	CMakeFiles/textdraw-streamer.dir/Natives.cpp.obj	7365627acc927805
 2054	4679	6563630183847247	textdraw-streamer.dll	82a24ec76617cf2e
+2	2169	6563711617560703	CMakeFiles/textdraw-streamer.dir/Natives.cpp.obj	7365627acc927805
+2170	5033	6563711643357036	textdraw-streamer.dll	82a24ec76617cf2e
+0	29	0	clean	9992afb1f91dc381
+1	519	6563734190614665	CMakeFiles/textdraw-streamer.dir/amxplugin.cpp.obj	940b8d79282cf8d1
+15	1261	6563734198052280	CMakeFiles/textdraw-streamer.dir/precompiler.cpp.obj	9a32c17bd41ebe08
+35	1450	6563734199801720	CMakeFiles/textdraw-streamer.dir/Natives.cpp.obj	7365627acc927805
+9	1501	6563734200371539	CMakeFiles/textdraw-streamer.dir/main.cpp.obj	a760565452826782
+26	1517	6563734200661443	CMakeFiles/textdraw-streamer.dir/Item.cpp.obj	9ecb84908ac3776e
+46	1633	6563734201851060	CMakeFiles/textdraw-streamer.dir/SlotManager.cpp.obj	cb7dffd5beeb233
+1261	2039	6563734205840097	CMakeFiles/textdraw-streamer.dir/Servis.cpp.obj	b1708fa6e2d65386
+520	2586	6563734211373528	CMakeFiles/textdraw-streamer.dir/sampgdk.c.obj	3a1d32d94c7e345c
+2586	4659	6563734228037817	textdraw-streamer.dll	82a24ec76617cf2e

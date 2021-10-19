@@ -15,6 +15,7 @@
  */
 
 #include "Natives.h"
+#include <cmath>
 
 #pragma region OLUSTURMA
 
