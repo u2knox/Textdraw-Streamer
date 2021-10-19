@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\TextdrawStreamer",
-    "\\TextdrawStreamer\\src"
+    "\\src"
   ],
-  "SelectedNode": "\\TextdrawStreamer\\src\\SlotManager.h",
+  "SelectedNode": "\\src\\main.cpp",
   "PreviewInSolutionExplorer": false
 }

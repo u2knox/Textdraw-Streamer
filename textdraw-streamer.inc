@@ -19,6 +19,10 @@
 #endif
 #define _SCRIPT_UNLIMITED_TEXTDRAW_
 
+#define TDGroup:%0(%1) \
+	forward %0(%1); \
+	public %0(%1)
+
 // Native
 native PlayerText: CreatePTextdraw(playerid, Float: x, Float: y, const text[]);
 native DestroyPTextdraw(playerid, PlayerText: text);
@@ -62,6 +66,12 @@ native PlayerTextDrawGetAlignment(playerid, PlayerText: text);
 native PlayerTextDrawGetPreviewModel(playerid, PlayerText: text);
 native PlayerTextDrawGetPreviewRot(playerid, PlayerText: text, &Float:fRotX, &Float:fRotY = 0.0, &Float:fRotZ = 0.0, &Float:fZoom = 0.0);
 native PlayerTextDrawGetPreviewVehCol(playerid, PlayerText: text, &color1, &color2 = 0);
+
+native PlayerTextDrawSetGroup(playerid, PlayerText:text, const string[], index);
+native ShowDynTextDrawGroup(playerid, const string[]);
+native HideDynTextDrawGroup(playerid, const string[]);
+native DestroyDynTextDrawGroup(playerid, const string[]);
+native GetTextDrawInRangeOfPoint(playerid, Float:x, Float:y, Float:radi);
 
 // Extra ID
 native PlayerTextDrawSetExtraID(playerid, PlayerText: text, index, value);

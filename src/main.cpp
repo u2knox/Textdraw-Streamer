@@ -119,6 +119,13 @@ AMX_NATIVE_INFO Nativeler[] =
 	// Diger
 	{ "PlayerTextDrawTotalCreate", Natives::PlayerTextDrawTotalCreate},
 
+	// Knox
+	{ "PlayerTextDrawSetGroup", Natives::PlayerTextDrawSetGroup},
+	{ "ShowDynTextDrawGroup", Natives::ShowDynTextDrawGroup},
+	{ "HideDynTextDrawGroup", Natives::HideDynTextDrawGroup},
+	{ "DestroyDynTextDrawGroup", Natives::DestroyDynTextDrawGroup},
+	{ "GetTextDrawInRangeOfPoint", Natives::GetTextDrawInRangeOfPoint},
+
 	// Null
 	{ 0, 0 }
 };
@@ -148,45 +155,59 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(int playerid, int text_id)
 {
-	if (!Item::pText[playerid].empty())
+	int idx;
+
+	if (Item::pText[playerid].empty())
+		return false;
+	if (global_Amx.empty())
+		return false;
+
+	for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
 	{
-		if (!global_Amx.empty())
+		if (p->second->real_id != text_id)
+			continue;
+
+		if (p->second->function.length() > 0)
 		{
-			for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
+			for (std::set<AMX*>::iterator j = global_Amx.begin(); j != global_Amx.end(); j++)
 			{
-				if (p->second->real_id == text_id)
+				if (!amx_FindPublic(*j, p->second->function.c_str(), &idx))
 				{
-					int idx;
-					for (std::set<AMX*>::iterator j = global_Amx.begin(); j != global_Amx.end(); j++)
-					{
-						// Default
-						if (!amx_FindPublic(*j, "ClickDynamicPlayerTextdraw", &idx))
-						{
-							amx_Push(*j, p->first);
-							amx_Push(*j, playerid);
-							amx_Exec(*j, NULL, idx);
-						}
-
-						// Name suggestion: Fairuz
-						if (!amx_FindPublic(*j, "OnPlayerClickDynamicTextdraw", &idx))
-						{
-							amx_Push(*j, p->first);
-							amx_Push(*j, playerid);
-							amx_Exec(*j, NULL, idx);
-						}
-
-						// Name suggestion: Kursed
-						if (!amx_FindPublic(*j, "OnDynamicPlayerTextdrawClicked", &idx))
-						{
-							amx_Push(*j, p->first);
-							amx_Push(*j, playerid);
-							amx_Exec(*j, NULL, idx);
-						}
-					}
-					break;
+					amx_Push(*j, p->second->functionIdx);
+					amx_Push(*j, playerid);
+					amx_Exec(*j, NULL, idx);
+					return true;
 				}
 			}
 		}
+
+		for (std::set<AMX*>::iterator j = global_Amx.begin(); j != global_Amx.end(); j++)
+		{
+			// Default
+			if (!amx_FindPublic(*j, "ClickDynamicPlayerTextdraw", &idx))
+			{
+				amx_Push(*j, p->first);
+				amx_Push(*j, playerid);
+				amx_Exec(*j, NULL, idx);
+			}
+
+			// Name suggestion: Fairuz
+			if (!amx_FindPublic(*j, "OnPlayerClickDynamicTextdraw", &idx))
+			{
+				amx_Push(*j, p->first);
+				amx_Push(*j, playerid);
+				amx_Exec(*j, NULL, idx);
+			}
+
+			// Name suggestion: Kursed
+			if (!amx_FindPublic(*j, "OnDynamicPlayerTextdrawClicked", &idx))
+			{
+				amx_Push(*j, p->first);
+				amx_Push(*j, playerid);
+				amx_Exec(*j, NULL, idx);
+			}
+		}
+		break;
 	}
 	return false;
 }
