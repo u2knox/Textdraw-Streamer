@@ -16,6 +16,7 @@
 
 #include "Natives.h"
 #include <cmath>
+#include <vector>
 
 #pragma region OLUSTURMA
 
@@ -220,7 +221,7 @@ cell AMX_NATIVE_CALL Natives::PTextLetterSize(AMX* amx, cell* params)
 	size_t playerid = static_cast<size_t>(params[1]);
 	if (!Item::pText[playerid].empty())
 	{
-		// Verileri çek
+		// Verileri Ã§ek
 		size_t text_id = static_cast<size_t>(params[2]);
 		float x = amx_ctof(params[3]);
 		float y = amx_ctof(params[4]);
@@ -228,7 +229,7 @@ cell AMX_NATIVE_CALL Natives::PTextLetterSize(AMX* amx, cell* params)
 		std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(text_id);
 		if (p != Item::pText[playerid].end())
 		{
-			// Verileri güncelle
+			// Verileri gÃ¼ncelle
 			p->second->lettersize_x = x;
 			p->second->lettersize_y = y;
 			if (p->second->real_id != INVALID_DYNAMIC_TEXTDRAW)
@@ -1053,11 +1054,21 @@ cell AMX_NATIVE_CALL Natives::ShowDynTextDrawGroup(AMX* amx, cell* params)
 	if (!Item::pText[playerid].empty())
 	{
 		std::string str = Servis::Get_String(amx, params[2]);
+		vector <int> textdrawIds;
+
 		for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
 		{
 			if (p->second->function.compare(str) == 0)
-				ShowDynTextDraw(playerid, p->first);
+			{
+				textdrawIds.push_back(p->first);
+			}
+				
 		}
+		sort(textdrawIds.begin(), textdrawIds.end());
+
+		for (auto x : textdrawIds)
+			ShowDynTextDraw(playerid, x);
+
 		if (LOG_MODE)
 		{
 			sampgdk::logprintf("%s ShowDynTextDrawGroup", LOG);
