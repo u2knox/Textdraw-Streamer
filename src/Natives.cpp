@@ -15,6 +15,8 @@
  */
 
 #include "Natives.h"
+#include <cmath>
+#include <vector>
 
 #pragma region OLUSTURMA
 
@@ -52,6 +54,9 @@ cell AMX_NATIVE_CALL Natives::CreatePTextdraw(AMX* amx, cell* params)
 
 	pt->setstring[0] = '\0';
 
+	pt->function[0] = '\0';
+	pt->functionIdx = 0;
+
 	pt->modelindex = 0;
 	pt->fRotX = 0.0;
 	pt->fRotY = 0.0;
@@ -71,6 +76,116 @@ cell AMX_NATIVE_CALL Natives::CreatePTextdraw(AMX* amx, cell* params)
 	Item::pText[playerid].insert(std::make_pair(id, std::move(pt)));
 
 	return static_cast<cell>(id);
+}
+
+void ShowDynTextDraw(int playerid, int textid)
+{
+	std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(textid);
+
+	if (p->second->real_id == INVALID_DYNAMIC_TEXTDRAW)
+	{
+		int j = INVALID_TEXT_DRAW;
+
+		if (p->second->setstring.length() != 0)
+		{
+			j = sampgdk_CreatePlayerTextDraw(playerid, p->second->create_x, p->second->create_y, p->second->setstring.c_str());
+		}
+		else
+		{
+			j = sampgdk_CreatePlayerTextDraw(playerid, p->second->create_x, p->second->create_y, p->second->text.c_str());
+		}
+
+		if (j == INVALID_TEXT_DRAW)
+		{
+			sampgdk::logprintf("%s pTextdraw suanda kullanilamiyor.", LOG);
+		}
+		else
+		{
+			if (p->second->lettersize_x != Item::def_pText.lettersize_x || p->second->lettersize_y != Item::def_pText.lettersize_y)
+			{
+				sampgdk_PlayerTextDrawLetterSize(playerid, j, p->second->lettersize_x, p->second->lettersize_y);
+			}
+
+			if (p->second->textsize_x != Item::def_pText.textsize_x || p->second->textsize_y != Item::def_pText.textsize_y)
+			{
+				sampgdk_PlayerTextDrawTextSize(playerid, j, p->second->textsize_x, p->second->textsize_y);
+			}
+
+			if (p->second->alignment != Item::def_pText.alignment)
+			{
+				sampgdk_PlayerTextDrawAlignment(playerid, j, p->second->alignment);
+			}
+
+			if (p->second->color != Item::def_pText.color)
+			{
+				sampgdk_PlayerTextDrawColor(playerid, j, p->second->color);
+			}
+
+			if (p->second->usebox != Item::def_pText.usebox)
+			{
+				sampgdk_PlayerTextDrawUseBox(playerid, j, p->second->usebox);
+			}
+
+			if (p->second->boxcolor != Item::def_pText.boxcolor)
+			{
+				sampgdk_PlayerTextDrawBoxColor(playerid, j, p->second->boxcolor);
+			}
+
+			if (p->second->shadow != Item::def_pText.shadow)
+			{
+				sampgdk_PlayerTextDrawSetShadow(playerid, j, p->second->shadow);
+			}
+
+			if (p->second->outline != Item::def_pText.outline)
+			{
+				sampgdk_PlayerTextDrawSetOutline(playerid, j, p->second->outline);
+			}
+
+			if (p->second->backgroundcolor != Item::def_pText.backgroundcolor)
+			{
+				sampgdk_PlayerTextDrawBackgroundColor(playerid, j, p->second->backgroundcolor);
+			}
+
+			if (p->second->font != Item::def_pText.font)
+			{
+				sampgdk_PlayerTextDrawFont(playerid, j, p->second->font);
+			}
+
+			if (p->second->proportional != Item::def_pText.proportional)
+			{
+				sampgdk_PlayerTextDrawSetProportional(playerid, j, p->second->proportional);
+			}
+
+			if (p->second->selectable != Item::def_pText.selectable)
+			{
+				sampgdk_PlayerTextDrawSetSelectable(playerid, j, p->second->selectable);
+			}
+
+			if (p->second->font == TEXT_DRAW_FONT_MODEL_PREVIEW)
+			{
+				if (p->second->modelindex != Item::def_pText.modelindex)
+				{
+					sampgdk_PlayerTextDrawSetPreviewModel(playerid, j, p->second->modelindex);
+				}
+
+				if (p->second->fRotX != Item::def_pText.fRotX || p->second->fRotY != Item::def_pText.fRotY || p->second->fRotZ != Item::def_pText.fRotZ || p->second->fZoom != Item::def_pText.fZoom)
+				{
+					sampgdk_PlayerTextDrawSetPreviewRot(playerid, j, p->second->fRotX, p->second->fRotY, p->second->fRotZ, p->second->fZoom);
+				}
+
+				if (p->second->veh_col1 != Item::def_pText.veh_col1 || p->second->veh_col2 != Item::def_pText.veh_col2)
+				{
+					sampgdk_PlayerTextDrawSetPreviewVehCol(playerid, j, p->second->veh_col1, p->second->veh_col2);
+				}
+			}
+			sampgdk_PlayerTextDrawShow(playerid, j);
+			p->second->real_id = j;
+		}
+	}
+	else
+	{
+		sampgdk_PlayerTextDrawShow(playerid, p->second->real_id);
+	}
 }
 
 cell AMX_NATIVE_CALL Natives::DestroyPTextdraw(AMX* amx, cell* params)
@@ -428,110 +543,7 @@ cell AMX_NATIVE_CALL Natives::PTextShow(AMX* amx, cell* params)
 		std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(text_id);
 		if (p != Item::pText[playerid].end())
 		{
-			if (p->second->real_id == INVALID_DYNAMIC_TEXTDRAW)
-			{
-				int j = INVALID_TEXT_DRAW;
-
-				if (p->second->setstring.length() != 0)
-				{
-					j = sampgdk_CreatePlayerTextDraw(playerid, p->second->create_x, p->second->create_y, p->second->setstring.c_str());
-				}
-				else
-				{
-					j = sampgdk_CreatePlayerTextDraw(playerid, p->second->create_x, p->second->create_y, p->second->text.c_str());
-				}
-
-				if (j == INVALID_TEXT_DRAW)
-				{
-					sampgdk::logprintf("%s pTextdraw suanda kullanilamiyor.", LOG);
-				}
-				else
-				{
-					if (p->second->lettersize_x != Item::def_pText.lettersize_x || p->second->lettersize_y != Item::def_pText.lettersize_y)
-					{
-						sampgdk_PlayerTextDrawLetterSize(playerid, j, p->second->lettersize_x, p->second->lettersize_y);
-					}
-
-					if (p->second->textsize_x != Item::def_pText.textsize_x || p->second->textsize_y != Item::def_pText.textsize_y)
-					{
-						sampgdk_PlayerTextDrawTextSize(playerid, j, p->second->textsize_x, p->second->textsize_y);
-					}
-
-					if (p->second->alignment != Item::def_pText.alignment)
-					{
-						sampgdk_PlayerTextDrawAlignment(playerid, j, p->second->alignment);
-					}
-
-					if (p->second->color != Item::def_pText.color)
-					{
-						sampgdk_PlayerTextDrawColor(playerid, j, p->second->color);
-					}
-
-					if (p->second->usebox != Item::def_pText.usebox)
-					{
-						sampgdk_PlayerTextDrawUseBox(playerid, j, p->second->usebox);
-					}
-
-					if (p->second->boxcolor != Item::def_pText.boxcolor)
-					{
-						sampgdk_PlayerTextDrawBoxColor(playerid, j, p->second->boxcolor);
-					}
-
-					if (p->second->shadow != Item::def_pText.shadow)
-					{
-						sampgdk_PlayerTextDrawSetShadow(playerid, j, p->second->shadow);
-					}
-
-					if (p->second->outline != Item::def_pText.outline)
-					{
-						sampgdk_PlayerTextDrawSetOutline(playerid, j, p->second->outline);
-					}
-
-					if (p->second->backgroundcolor != Item::def_pText.backgroundcolor)
-					{
-						sampgdk_PlayerTextDrawBackgroundColor(playerid, j, p->second->backgroundcolor);
-					}
-
-					if (p->second->font != Item::def_pText.font)
-					{
-						sampgdk_PlayerTextDrawFont(playerid, j, p->second->font);
-					}
-
-					if (p->second->proportional != Item::def_pText.proportional)
-					{
-						sampgdk_PlayerTextDrawSetProportional(playerid, j, p->second->proportional);
-					}
-
-					if (p->second->selectable != Item::def_pText.selectable)
-					{
-						sampgdk_PlayerTextDrawSetSelectable(playerid, j, p->second->selectable);
-					}
-
-					if (p->second->font == TEXT_DRAW_FONT_MODEL_PREVIEW)
-					{
-						if (p->second->modelindex != Item::def_pText.modelindex)
-						{
-							sampgdk_PlayerTextDrawSetPreviewModel(playerid, j, p->second->modelindex);
-						}
-
-						if (p->second->fRotX != Item::def_pText.fRotX || p->second->fRotY != Item::def_pText.fRotY || p->second->fRotZ != Item::def_pText.fRotZ || p->second->fZoom != Item::def_pText.fZoom)
-						{
-							sampgdk_PlayerTextDrawSetPreviewRot(playerid, j, p->second->fRotX, p->second->fRotY, p->second->fRotZ, p->second->fZoom);
-						}
-
-						if (p->second->veh_col1 != Item::def_pText.veh_col1 || p->second->veh_col2 != Item::def_pText.veh_col2)
-						{
-							sampgdk_PlayerTextDrawSetPreviewVehCol(playerid, j, p->second->veh_col1, p->second->veh_col2);
-						}
-					}
-					sampgdk_PlayerTextDrawShow(playerid, j);
-					p->second->real_id = j;
-				}
-			}
-			else
-			{
-				sampgdk_PlayerTextDrawShow(playerid, p->second->real_id);
-			}
+			ShowDynTextDraw(playerid, p->first);
 
 			if (LOG_MODE)
 			{
@@ -1011,4 +1023,133 @@ cell AMX_NATIVE_CALL Natives::PlayerTextDrawTotalCreate(AMX* amx, cell* params)
 		return 0;
 	}
 	return Item::pText[playerid].size();
+}
+
+cell AMX_NATIVE_CALL Natives::PlayerTextDrawSetGroup(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	if (Item::pText[playerid].empty())
+		return false;
+
+	size_t text_id = static_cast<size_t>(params[2]);
+	std::string str = Servis::Get_String(amx, params[3]);
+
+	std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(text_id);
+	if (p == Item::pText[playerid].end())
+		return false;
+
+	p->second->function = str;
+	p->second->functionIdx = static_cast<size_t>(params[4]);
+
+	if (LOG_MODE)
+	{
+		sampgdk::logprintf("%s PlayerTextDrawSetGroup:: %s", LOG, p->second->setstring.c_str());
+	}
+	return true;
+}
+
+cell AMX_NATIVE_CALL Natives::ShowDynTextDrawGroup(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	if (!Item::pText[playerid].empty())
+	{
+		std::string str = Servis::Get_String(amx, params[2]);
+		vector <int> textdrawIds;
+
+		for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
+		{
+			if (p->second->function.compare(str) == 0)
+			{
+				textdrawIds.push_back(p->first);
+			}
+				
+		}
+		sort(textdrawIds.begin(), textdrawIds.end());
+
+		for (auto x : textdrawIds)
+			ShowDynTextDraw(playerid, x);
+
+		if (LOG_MODE)
+		{
+			sampgdk::logprintf("%s ShowDynTextDrawGroup", LOG);
+		}
+	}
+	return 1;
+}
+
+cell AMX_NATIVE_CALL Natives::HideDynTextDrawGroup(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	if (!Item::pText[playerid].empty())
+	{
+		std::string str = Servis::Get_String(amx, params[2]);
+		for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
+		{
+			if (p->second->function.compare(str) == 0)
+			{
+				if (p->second->real_id != INVALID_DYNAMIC_TEXTDRAW)
+				{
+					sampgdk_PlayerTextDrawDestroy(playerid, p->second->real_id);
+					p->second->real_id = INVALID_DYNAMIC_TEXTDRAW;
+				}
+			}
+		}
+	}
+	return 1;
+}
+
+cell AMX_NATIVE_CALL Natives::DestroyDynTextDrawGroup(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	if (!Item::pText[playerid].empty())
+	{
+		std::string str = Servis::Get_String(amx, params[2]);
+
+		for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); )
+		{
+			if (p->second->function.length() != 0 && p->second->function.compare(str) == 0)
+			{
+				if (p->second->real_id != INVALID_DYNAMIC_TEXTDRAW)
+				{
+					sampgdk_PlayerTextDrawHide(playerid, p->second->real_id);
+					sampgdk_PlayerTextDrawDestroy(playerid, p->second->real_id);
+					p->second->real_id = INVALID_DYNAMIC_TEXTDRAW;
+				}
+
+				p->second->extra_id.clear();
+
+				SlotManager::Remove_ID(playerid, p->first);
+				p = Item::pText[playerid].erase(p);
+			}
+			else
+				p++;
+		}
+
+		if (LOG_MODE)
+		{
+			sampgdk::logprintf("%s DestroyDynTextDrawGroup::", LOG);
+		}
+	}
+	return true;
+}
+
+cell AMX_NATIVE_CALL Natives::GetTextDrawInRangeOfPoint(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	double center_x = amx_ctof(params[2]);
+	double center_y = amx_ctof(params[3]);
+	double radi = amx_ctof(params[4]);
+
+	double d = 0;
+
+	for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
+	{
+		d = pow(radi, 2.0) - pow((center_x - p->second->create_x), 2.0) + pow((center_y - p->second->create_y), 2.0);
+
+		if (d < 0.0)
+			continue;
+
+		return p->first;
+	}
+	return -1;
 }

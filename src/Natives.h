@@ -76,4 +76,9 @@ public:
 
 	// Diger
 	static cell AMX_NATIVE_CALL PlayerTextDrawTotalCreate(AMX* amx, cell* params);
+	static cell AMX_NATIVE_CALL PlayerTextDrawSetGroup(AMX* amx, cell* params);
+	static cell AMX_NATIVE_CALL ShowDynTextDrawGroup(AMX* amx, cell* params);
+	static cell AMX_NATIVE_CALL HideDynTextDrawGroup(AMX* amx, cell* params);
+	static cell AMX_NATIVE_CALL DestroyDynTextDrawGroup(AMX* amx, cell* params);
+	static cell AMX_NATIVE_CALL GetTextDrawInRangeOfPoint(AMX* amx, cell* params);
 };

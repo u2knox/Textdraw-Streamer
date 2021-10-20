@@ -86,6 +86,9 @@ struct PlayerText
 	int veh_col1;
 	int veh_col2;
 
+	int functionIdx;
+	std::string function;
+
 	std::map<int, int> extra_id;
 };
 
