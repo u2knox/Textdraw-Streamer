@@ -1153,3 +1153,28 @@ cell AMX_NATIVE_CALL Natives::GetTextDrawInRangeOfPoint(AMX* amx, cell* params)
 	}
 	return -1;
 }
+
+cell AMX_NATIVE_CALL Natives::UpdatePlayerTextDraw(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	if (Item::pText[playerid].empty())
+		return 0;
+
+	size_t text_id = static_cast<size_t>(params[2]);
+
+	std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(text_id);
+	if (p == Item::pText[playerid].end())
+		return 0;
+
+	if (p->second->real_id == INVALID_DYNAMIC_TEXTDRAW)
+		return 0;
+
+	sampgdk_PlayerTextDrawHide(playerid, p->second->real_id);
+	sampgdk_PlayerTextDrawShow(playerid, p->second->real_id);
+
+	if (LOG_MODE)
+	{
+		sampgdk::logprintf("%s UpdatePlayerTextDraw:: %d", LOG, p->second->alignment);
+	}
+	return 1;
+}

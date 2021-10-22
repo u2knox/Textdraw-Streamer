@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/u2kno/source/repos/samp-textdraw-streamer/src
+# Install script for directory: D:/samp/TDStreamer/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/u2kno/Source/Repos/samp-textdraw-streamer/src/out/install/x86-Debug")
+  set(CMAKE_INSTALL_PREFIX "D:/samp/TDStreamer/src/out/install/x86-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/u2kno/source/repos/samp-textdraw-streamer/src/out/build/x86-Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/samp/TDStreamer/src/out/build/x86-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -125,7 +125,7 @@ build CMakeFiles\textdraw-streamer.dir\SlotManager.cpp.obj: CXX_COMPILER__textdr
 
 build textdraw-streamer.dll: CXX_MODULE_LIBRARY_LINKER__textdraw-streamer_Debug CMakeFiles\textdraw-streamer.dir\amxplugin.cpp.obj CMakeFiles\textdraw-streamer.dir\Item.cpp.obj CMakeFiles\textdraw-streamer.dir\main.cpp.obj CMakeFiles\textdraw-streamer.dir\Natives.cpp.obj CMakeFiles\textdraw-streamer.dir\precompiler.cpp.obj CMakeFiles\textdraw-streamer.dir\sampgdk.c.obj CMakeFiles\textdraw-streamer.dir\Servis.cpp.obj CMakeFiles\textdraw-streamer.dir\SlotManager.cpp.obj | ..\..\..\textdraw-streamer.def
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /DEF:C:\Users\u2kno\source\repos\samp-textdraw-streamer\src\textdraw-streamer.def  /DEF:..\..\..\textdraw-streamer.def
+  LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /DEF:D:\samp\TDStreamer\src\textdraw-streamer.def  /DEF:..\..\..\textdraw-streamer.def
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\textdraw-streamer.dir
   POST_BUILD = cd .
@@ -140,7 +140,7 @@ build textdraw-streamer.dll: CXX_MODULE_LIBRARY_LINKER__textdraw-streamer_Debug 
 # Utility command for edit_cache
 
 build CMakeFiles\edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\u2kno\source\repos\samp-textdraw-streamer\src\out\build\x86-Debug && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D D:\samp\TDStreamer\src\out\build\x86-Debug && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -151,7 +151,7 @@ build edit_cache: phony CMakeFiles\edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\u2kno\source\repos\samp-textdraw-streamer\src\out\build\x86-Debug && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\u2kno\source\repos\samp-textdraw-streamer\src -BC:\Users\u2kno\source\repos\samp-textdraw-streamer\src\out\build\x86-Debug"
+  COMMAND = cmd.exe /C "cd /D D:\samp\TDStreamer\src\out\build\x86-Debug && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SD:\samp\TDStreamer\src -BD:\samp\TDStreamer\src\out\build\x86-Debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -169,7 +169,7 @@ build textdraw-streamer: phony textdraw-streamer.dll
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/u2kno/source/repos/samp-textdraw-streamer/src/out/build/x86-Debug
+# Folder: D:/samp/TDStreamer/src/out/build/x86-Debug
 
 build all: phony textdraw-streamer.dll
 

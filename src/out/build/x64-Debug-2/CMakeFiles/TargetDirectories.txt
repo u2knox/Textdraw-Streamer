@@ -1,3 +1,0 @@
-C:/Users/u2kno/source/repos/samp-textdraw-streamer/src/out/build/x64-Debug-2/CMakeFiles/textdraw-streamer.dir
-C:/Users/u2kno/source/repos/samp-textdraw-streamer/src/out/build/x64-Debug-2/CMakeFiles/edit_cache.dir
-C:/Users/u2kno/source/repos/samp-textdraw-streamer/src/out/build/x64-Debug-2/CMakeFiles/rebuild_cache.dir

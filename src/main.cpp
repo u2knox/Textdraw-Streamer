@@ -125,6 +125,7 @@ AMX_NATIVE_INFO Nativeler[] =
 	{ "HideDynTextDrawGroup", Natives::HideDynTextDrawGroup},
 	{ "DestroyDynTextDrawGroup", Natives::DestroyDynTextDrawGroup},
 	{ "GetTextDrawInRangeOfPoint", Natives::GetTextDrawInRangeOfPoint},
+	{ "UpdatePlayerTextDraw", Natives::UpdatePlayerTextDraw},
 
 	// Null
 	{ 0, 0 }

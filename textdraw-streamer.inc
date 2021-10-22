@@ -67,11 +67,13 @@ native PlayerTextDrawGetPreviewModel(playerid, PlayerText: text);
 native PlayerTextDrawGetPreviewRot(playerid, PlayerText: text, &Float:fRotX, &Float:fRotY = 0.0, &Float:fRotZ = 0.0, &Float:fZoom = 0.0);
 native PlayerTextDrawGetPreviewVehCol(playerid, PlayerText: text, &color1, &color2 = 0);
 
+// knox
 native PlayerTextDrawSetGroup(playerid, PlayerText:text, const string[], index);
 native ShowDynTextDrawGroup(playerid, const string[]);
 native HideDynTextDrawGroup(playerid, const string[]);
 native DestroyDynTextDrawGroup(playerid, const string[]);
 native GetTextDrawInRangeOfPoint(playerid, Float:x, Float:y, Float:radi);
+native UpdatePlayerTextDraw(playerid, PlayerText:text);
 
 // Extra ID
 native PlayerTextDrawSetExtraID(playerid, PlayerText: text, index, value);
