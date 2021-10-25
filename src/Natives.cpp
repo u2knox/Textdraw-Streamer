@@ -554,26 +554,36 @@ cell AMX_NATIVE_CALL Natives::PTextShow(AMX* amx, cell* params)
 	return 1;
 }
 
+bool HidePlayerText(int playerid, int textid)
+{
+	std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator
+		p = Item::pText[playerid].find(textid);
+
+	if (p == Item::pText[playerid].end())
+		return 0;
+
+	if (p->second->real_id == INVALID_DYNAMIC_TEXTDRAW)
+		return 0;
+
+	sampgdk_PlayerTextDrawDestroy(playerid, p->second->real_id);
+	p->second->real_id = INVALID_DYNAMIC_TEXTDRAW;
+	return 1;
+}
+
 cell AMX_NATIVE_CALL Natives::PTextHide(AMX* amx, cell* params)
 {
-	size_t playerid = static_cast<size_t>(params[1]);
-	if (!Item::pText[playerid].empty())
-	{
-		size_t text_id = static_cast<size_t>(params[2]);
-		std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(text_id);
-		if (p != Item::pText[playerid].end())
-		{
-			if (p->second->real_id != INVALID_DYNAMIC_TEXTDRAW)
-			{
-				sampgdk_PlayerTextDrawDestroy(playerid, p->second->real_id);
-				p->second->real_id = INVALID_DYNAMIC_TEXTDRAW;
-			}
+	size_t
+		playerid = static_cast<size_t>(params[1]);
 
-			if (LOG_MODE)
-			{
-				sampgdk::logprintf("%s pHide", LOG);
-			}
-		}
+	if (Item::pText[playerid].empty())
+		return 0;
+
+	if (!HidePlayerText(playerid, static_cast<size_t>(params[2])))
+		return 0;
+
+	if (LOG_MODE)
+	{
+		sampgdk::logprintf("%s pHide", LOG);
 	}
 	return 1;
 }
@@ -1177,4 +1187,34 @@ cell AMX_NATIVE_CALL Natives::UpdatePlayerTextDraw(AMX* amx, cell* params)
 		sampgdk::logprintf("%s UpdatePlayerTextDraw:: %d", LOG, p->second->alignment);
 	}
 	return 1;
+}
+
+cell AMX_NATIVE_CALL Natives::AttractPlayerTextDraws(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+
+	if (Item::pText[playerid].empty())
+		return false;
+
+	std::string str = Servis::Get_String(amx, params[2]);
+	int count = 0;
+
+	for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
+	{
+		if (p->second->real_id == INVALID_DYNAMIC_TEXTDRAW)
+			continue;
+
+		if (!HidePlayerText(playerid, p->first))
+			continue;
+
+		ShowDynTextDraw(playerid, p->first);
+
+		count++;
+	}
+
+	if (LOG_MODE)
+	{
+		sampgdk::logprintf("%s AttractPlayerTextDraws::", LOG);
+	}
+	return count;
 }

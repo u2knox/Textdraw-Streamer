@@ -82,4 +82,5 @@ public:
 	static cell AMX_NATIVE_CALL DestroyDynTextDrawGroup(AMX* amx, cell* params);
 	static cell AMX_NATIVE_CALL GetTextDrawInRangeOfPoint(AMX* amx, cell* params);
 	static cell AMX_NATIVE_CALL UpdatePlayerTextDraw(AMX* amx, cell* params);
+	static cell AMX_NATIVE_CALL AttractPlayerTextDraws(AMX* amx, cell* params);
 };

@@ -74,6 +74,7 @@ native HideDynTextDrawGroup(playerid, const string[]);
 native DestroyDynTextDrawGroup(playerid, const string[]);
 native GetTextDrawInRangeOfPoint(playerid, Float:x, Float:y, Float:radi);
 native UpdatePlayerTextDraw(playerid, PlayerText:text);
+native AttractPlayerTextDraws(playerid);
 
 // Extra ID
 native PlayerTextDrawSetExtraID(playerid, PlayerText: text, index, value);
