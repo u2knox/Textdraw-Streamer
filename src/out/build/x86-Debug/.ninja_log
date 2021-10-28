@@ -17,3 +17,6 @@
 0	1463	6568835692671889	CMakeFiles/textdraw-streamer.dir/Item.cpp.obj	9ecb84908ac3776e
 21	1467	6568835692741867	CMakeFiles/textdraw-streamer.dir/main.cpp.obj	a760565452826782
 1467	2163	6568835698829928	textdraw-streamer.dll	7db77e4dd55dd2e3
+0	1529	6570522999775097	CMakeFiles/textdraw-streamer.dir/main.cpp.obj	a760565452826782
+8	1531	6570522999795092	CMakeFiles/textdraw-streamer.dir/Natives.cpp.obj	7365627acc927805
+1532	3506	6570523016619733	textdraw-streamer.dll	7db77e4dd55dd2e3

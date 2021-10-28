@@ -1196,7 +1196,6 @@ cell AMX_NATIVE_CALL Natives::AttractPlayerTextDraws(AMX* amx, cell* params)
 	if (Item::pText[playerid].empty())
 		return false;
 
-	std::string str = Servis::Get_String(amx, params[2]);
 	int count = 0;
 
 	for (std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].begin(); p != Item::pText[playerid].end(); p++)
@@ -1217,4 +1216,21 @@ cell AMX_NATIVE_CALL Natives::AttractPlayerTextDraws(AMX* amx, cell* params)
 		sampgdk::logprintf("%s AttractPlayerTextDraws::", LOG);
 	}
 	return count;
+}
+
+cell AMX_NATIVE_CALL Natives::GetRealPlayerTextDrawID(AMX* amx, cell* params)
+{
+	size_t playerid = static_cast<size_t>(params[1]);
+	if (Item::pText[playerid].empty())
+		return 0;
+
+	size_t text_id = static_cast<size_t>(params[2]);
+
+	std::unordered_map<int, std::unique_ptr<PlayerText>>::iterator p = Item::pText[playerid].find(text_id);
+
+	if (p == Item::pText[playerid].end())
+		return 0;
+
+	Servis::Native_SetInt(amx, params[3], p->second->real_id);
+	return 1;
 }

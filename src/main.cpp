@@ -127,6 +127,7 @@ AMX_NATIVE_INFO Nativeler[] =
 	{ "GetTextDrawInRangeOfPoint", Natives::GetTextDrawInRangeOfPoint},
 	{ "UpdatePlayerTextDraw", Natives::UpdatePlayerTextDraw},
 	{ "AttractPlayerTextDraws", Natives::AttractPlayerTextDraws},
+	{ "GetRealPlayerTextDrawID", Natives::GetRealPlayerTextDrawID},
 
 	// Null
 	{ 0, 0 }
