@@ -33,17 +33,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
 	Item::Reset();
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 	bool load = sampgdk::Load(ppData);
-	sampgdk::logprintf("");
-	sampgdk::logprintf(" ===============================");
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf("    Textdraw Streamer Yuklendi  ");
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf("          Surum: %s            ", PLUGIN_VERSION);
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf("    Developer: Burak (NexoR)    ");
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf(" ===============================");
-	sampgdk::logprintf("");
+	sampgdk::logprintf(">> Textdraw Streamer loaded %s ", PLUGIN_VERSION);
+	sampgdk::logprintf(" Original developer:	Burak (NexoR) ");
+	sampgdk::logprintf(" Current developer:		knox ");
 	return load;
 }
 
@@ -51,17 +43,9 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload()
 {
 	SlotManager::Reset_All_ID();
 	Item::Reset();
-	sampgdk::logprintf("");
-	sampgdk::logprintf(" ===============================");
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf("   Textdraw Streamer Kapatildi  ");
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf("          Surum: %s            ", PLUGIN_VERSION);
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf("    Developer: Burak (NexoR)    ");
-	sampgdk::logprintf("                                ");
-	sampgdk::logprintf(" ===============================");
-	sampgdk::logprintf("");
+	sampgdk::logprintf(">> Textdraw Streamer unloaded %s ", PLUGIN_VERSION);
+	sampgdk::logprintf(" Original developer:	Burak (NexoR) ");
+	sampgdk::logprintf(" Current developer:		knox ");
 	sampgdk::Unload();
 }
 

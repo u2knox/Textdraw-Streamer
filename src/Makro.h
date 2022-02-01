@@ -16,7 +16,7 @@
 
 #pragma once
 
-constexpr auto LOG = "[plugin.textdrawstreamer]";
+constexpr auto LOG = "[plugin.TDStreamer]";
 constexpr auto LOG_MODE = false;
 
 constexpr auto INVALID_DYNAMIC_TEXTDRAW = -1;
